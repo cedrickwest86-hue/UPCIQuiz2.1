@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPCI Bible Quiz - Test Bank</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C8962E;--gold-light:#E8C66A;--gold-dim:#8B6914;--navy:#0F1B2D;--navy-mid:#1A2B44;--navy-light:#243B5C;--cream:#F5F0E8;--cream-dim:#E8E0D0;--white:#FFF;--red:#C0392B;--red-light:#E74C3C;--green:#27AE60;--green-light:#2ECC71;--blue-pts:#3498DB;--yellow-pts:#F1C40F;--red-pts:#E74C3C;--radius:12px;--shadow:0 4px 24px rgba(0,0,0,.18)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Source Sans 3',sans-serif;background:var(--navy);color:var(--cream);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 0%,rgba(200,150,46,.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(200,150,46,.05) 0%,transparent 50%);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1}
+.header{text-align:center;padding:32px 20px 24px;border-bottom:1px solid rgba(200,150,46,.15)}
+.header-icon{font-size:36px;margin-bottom:8px}
+.header h1{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;color:var(--gold);letter-spacing:1px}
+.header p{font-size:13px;color:rgba(245,240,232,.5);margin-top:4px;letter-spacing:2px;text-transform:uppercase}
+.screen{max-width:540px;margin:40px auto;padding:0 20px;display:none}
+.screen.visible{display:block}
+.screen.wide{max-width:820px}
+.card{background:var(--navy-mid);border:1px solid rgba(200,150,46,.15);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow)}
+.card h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold-light);margin-bottom:28px;text-align:center}
+.field-group{margin-bottom:24px}
+.field-group label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(245,240,232,.5);margin-bottom:10px;font-weight:600}
+.toggle-row{display:flex;gap:8px;flex-wrap:wrap}
+.toggle-btn{flex:1;min-width:90px;padding:14px 10px;border:2px solid rgba(200,150,46,.25);border-radius:8px;background:transparent;color:var(--cream-dim);font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;text-align:center}
+.toggle-btn:hover{border-color:var(--gold);color:var(--gold-light)}
+.toggle-btn.active{background:linear-gradient(135deg,var(--gold-dim),var(--gold));border-color:var(--gold);color:var(--navy)}
+.toggle-btn .btn-icon{display:block;font-size:20px;margin-bottom:4px}
+.input-row{display:flex;gap:10px;align-items:center}
+.input-row input[type=number]{width:80px;padding:10px 12px;border:2px solid rgba(200,150,46,.25);border-radius:8px;background:rgba(0,0,0,.2);color:var(--cream);font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:600;text-align:center;outline:none;transition:border-color .25s}
+.input-row input[type=number]:focus{border-color:var(--gold)}
+.input-row span{color:rgba(245,240,232,.4);font-size:14px}
+.range-hint{font-size:12px;color:rgba(245,240,232,.35);margin-top:6px;line-height:1.5}
+.q-count-row{display:flex;gap:10px;align-items:center}
+.q-count-row input[type=number]{width:80px;padding:10px 12px;border:2px solid rgba(200,150,46,.25);border-radius:8px;background:rgba(0,0,0,.2);color:var(--cream);font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:600;text-align:center;outline:none;transition:border-color .25s}
+.q-count-row input[type=number]:focus{border-color:var(--gold)}
+.q-count-hint{font-size:12px;color:rgba(245,240,232,.35);margin-top:6px;line-height:1.5}
+.preview-box{margin-top:16px;background:rgba(0,0,0,.15);border:1px solid rgba(200,150,46,.1);border-radius:8px;padding:16px;max-height:220px;overflow-y:auto}
+.preview-box::-webkit-scrollbar{width:6px}
+.preview-box::-webkit-scrollbar-track{background:transparent}
+.preview-box::-webkit-scrollbar-thumb{background:rgba(200,150,46,.25);border-radius:3px}
+.preview-item{padding:8px 0;border-bottom:1px solid rgba(200,150,46,.06);font-size:13px;line-height:1.5;color:var(--cream-dim)}
+.preview-item:last-child{border-bottom:none}
+.preview-item .pi-type{display:inline-block;font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(200,150,46,.1);color:var(--gold);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-right:6px}
+.preview-item .pi-pts{display:inline-block;font-size:10px;padding:2px 6px;border-radius:3px;font-weight:700;margin-right:6px}
+.pi-pts.p10{background:rgba(52,152,219,.15);color:var(--blue-pts)}
+.pi-pts.p20{background:rgba(241,196,15,.15);color:var(--yellow-pts)}
+.pi-pts.p30{background:rgba(231,76,60,.15);color:var(--red-pts)}
+.preview-item .pi-ref{color:rgba(245,240,232,.4);font-size:11px;font-style:italic}
+.preview-header{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.gold-btn{display:block;width:100%;padding:16px;background:linear-gradient(135deg,var(--gold-dim),var(--gold));border:none;border-radius:8px;color:var(--navy);font-family:'Playfair Display',serif;font-size:18px;font-weight:700;cursor:pointer;letter-spacing:1px;transition:all .3s;box-shadow:0 4px 16px rgba(200,150,46,.3);margin-top:8px}
+.gold-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(200,150,46,.45)}
+.gold-btn.sm{font-size:14px;padding:12px 28px;width:auto;display:inline-block}
+.outline-btn{padding:10px 20px;border:1px solid rgba(200,150,46,.3);border-radius:8px;background:transparent;color:var(--cream);font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s}
+.outline-btn:hover{background:rgba(200,150,46,.1);border-color:var(--gold)}
+.outline-btn.danger{border-color:rgba(192,57,43,.4);color:var(--red-light)}
+.outline-btn.danger:hover{background:rgba(192,57,43,.15);border-color:var(--red)}
+.quiz-area{max-width:680px;margin:0 auto;padding:20px;display:none}
+.quiz-area.visible{display:block}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.badge-division{background:rgba(200,150,46,.15);border:1px solid rgba(200,150,46,.3);color:var(--gold-light)}
+.badge-mode{color:var(--navy)}
+.badge-mode.student{background:var(--blue-pts)}
+.badge-mode.coach{background:var(--green)}
+.badge-mode.tournament{background:var(--red-pts)}
+.score-display{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);font-weight:700}
+.timer-bar{width:100%;height:6px;background:rgba(245,240,232,.08);border-radius:3px;margin-bottom:24px;overflow:hidden}
+.timer-fill{height:100%;background:var(--gold);border-radius:3px;transition:width .25s linear,background .5s;width:100%}
+.timer-fill.warning{background:var(--yellow-pts)}
+.timer-fill.danger{background:var(--red-pts)}
+.timer-text{text-align:center;font-size:14px;color:rgba(245,240,232,.5);margin-bottom:16px;font-weight:500}
+.timer-text span{font-family:'Playfair Display',serif;font-size:22px;color:var(--cream);font-weight:700}
+.timer-text span.warning{color:var(--yellow-pts)}
+.timer-text span.danger{color:var(--red-pts);animation:pulse .6s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.progress-text{text-align:center;font-size:12px;color:rgba(245,240,232,.4);letter-spacing:1px;margin-bottom:20px}
+.question-card{background:var(--navy-mid);border:1px solid rgba(200,150,46,.12);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);margin-bottom:20px;position:relative;overflow:hidden}
+.question-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dim),var(--gold),var(--gold-dim))}
+.q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.q-type{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-weight:700}
+.q-points{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;font-size:13px;font-weight:800;color:var(--white)}
+.q-points.pts-10{background:var(--blue-pts)}
+.q-points.pts-20{background:var(--yellow-pts);color:var(--navy)}
+.q-points.pts-30{background:var(--red-pts)}
+.q-reference{font-size:13px;color:rgba(245,240,232,.4);margin-bottom:16px;font-style:italic}
+.q-reference.hidden-ref{filter:blur(5px);user-select:none;pointer-events:none}
+.q-text{font-family:'Playfair Display',serif;font-size:20px;line-height:1.5;color:var(--cream);font-weight:600}
+.answer-area{margin-top:24px;padding-top:20px;border-top:1px solid rgba(200,150,46,.1)}
+.answer-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(245,240,232,.4);margin-bottom:8px;font-weight:600}
+.answer-text{font-size:17px;font-weight:600;color:var(--gold-light);line-height:1.5}
+.verse-block{margin-top:14px;padding:14px 16px;background:rgba(200,150,46,.04);border-left:3px solid var(--gold-dim);border-radius:0 8px 8px 0;font-size:14px;line-height:1.7;color:var(--cream-dim)}
+.verse-block .verse-ref{display:block;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase}
+.answer-hidden{background:rgba(200,150,46,.06);border:1px dashed rgba(200,150,46,.2);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .3s}
+.answer-hidden:hover{background:rgba(200,150,46,.1);border-color:var(--gold)}
+.answer-hidden p{color:rgba(245,240,232,.4);font-size:14px}
+.answer-hidden .reveal-icon{font-size:28px;margin-bottom:4px}
+.coach-btns{display:flex;gap:10px;margin-top:16px}
+.coach-btn{flex:1;padding:12px;border-radius:8px;border:2px solid;font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .25s;text-transform:uppercase;letter-spacing:1px}
+.coach-btn.correct{border-color:var(--green);background:rgba(39,174,96,.1);color:var(--green-light)}
+.coach-btn.correct:hover{background:var(--green);color:var(--white)}
+.coach-btn.incorrect{border-color:var(--red);background:rgba(192,57,43,.1);color:var(--red-light)}
+.coach-btn.incorrect:hover{background:var(--red);color:var(--white)}
+.coach-btn:disabled{opacity:.4;cursor:default;pointer-events:none}
+.result-tag{display:inline-block;padding:4px 12px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:10px}
+.result-tag.got-correct{background:rgba(39,174,96,.15);color:var(--green-light)}
+.result-tag.got-incorrect{background:rgba(192,57,43,.15);color:var(--red-light)}
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.nav-btn{display:flex;align-items:center;gap:6px;padding:12px 24px;border:1px solid rgba(200,150,46,.25);border-radius:8px;background:rgba(200,150,46,.05);color:var(--cream);font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .25s}
+.nav-btn:hover{background:rgba(200,150,46,.15);border-color:var(--gold)}
+.nav-btn:disabled{opacity:.25;cursor:default}
+.nav-btn:disabled:hover{background:rgba(200,150,46,.05)}
+.timer-controls{display:flex;gap:8px;align-items:center}
+.timer-ctrl-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(200,150,46,.25);background:transparent;color:var(--cream);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.timer-ctrl-btn:hover{background:rgba(200,150,46,.15);border-color:var(--gold)}
+.end-quiz-row{text-align:center;margin-top:16px}
+.summary-score{font-family:'Playfair Display',serif;font-size:52px;font-weight:800;color:var(--gold-light);margin:20px 0 8px;text-align:center}
+.summary-max{font-size:14px;color:rgba(245,240,232,.4);margin-bottom:24px;text-align:center}
+.stat-row{display:flex;justify-content:center;gap:28px;margin-bottom:28px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700}
+.stat-num.green{color:var(--green-light)}
+.stat-num.red{color:var(--red-light)}
+.stat-num.blue{color:var(--blue-pts)}
+.stat-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(245,240,232,.4);margin-top:4px}
+.report-section{margin-top:28px}
+.report-section h3{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);margin-bottom:14px}
+.report-table{width:100%;border-collapse:collapse;font-size:13px}
+.report-table th{text-align:left;padding:10px 8px;border-bottom:2px solid rgba(200,150,46,.2);color:var(--gold-light);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.report-table td{padding:10px 8px;border-bottom:1px solid rgba(200,150,46,.07);color:var(--cream-dim);vertical-align:top}
+.report-table tr:last-child td{border-bottom:none}
+.report-table .row-correct{border-left:3px solid var(--green)}
+.report-table .row-incorrect{border-left:3px solid var(--red)}
+.report-table .row-skip{border-left:3px solid rgba(245,240,232,.15)}
+.pill{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.pill.green{background:rgba(39,174,96,.15);color:var(--green-light)}
+.pill.red{background:rgba(192,57,43,.15);color:var(--red-light)}
+.pill.gray{background:rgba(245,240,232,.08);color:rgba(245,240,232,.4)}
+.pill.blue{background:rgba(52,152,219,.15);color:var(--blue-pts)}
+.pill.yellow{background:rgba(241,196,15,.15);color:var(--yellow-pts)}
+.pill.redpt{background:rgba(231,76,60,.15);color:var(--red-pts)}
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px}
+.analytics-card{background:rgba(200,150,46,.04);border:1px solid rgba(200,150,46,.1);border-radius:8px;padding:14px;text-align:center}
+.analytics-card .a-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold-light)}
+.analytics-card .a-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(245,240,232,.4);margin-top:4px}
+.bar-group{margin-bottom:12px}
+.bar-label{font-size:12px;color:rgba(245,240,232,.5);margin-bottom:4px;display:flex;justify-content:space-between}
+.bar-track{height:8px;background:rgba(245,240,232,.06);border-radius:4px;overflow:hidden}
+.bar-fill-green{height:100%;background:var(--green);border-radius:4px;transition:width .5s}
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.visible{display:flex}
+.modal-box{background:var(--navy-mid);border:1px solid rgba(200,150,46,.2);border-radius:var(--radius);padding:28px;max-width:380px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.4)}
+.modal-box h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);margin-bottom:12px}
+.modal-box p{font-size:14px;color:rgba(245,240,232,.6);margin-bottom:20px;line-height:1.5}
+.modal-btns{display:flex;gap:10px;justify-content:center}
+@media(max-width:600px){.header h1{font-size:22px}.question-card{padding:24px 18px}.q-text{font-size:17px}.nav-btn{padding:10px 14px;font-size:13px}.stat-row{gap:16px}.analytics-grid{grid-template-columns:1fr 1fr}.report-table{font-size:11px}.input-row input[type=number]{width:65px}.q-count-row input[type=number]{width:65px}}
+.fade-in{animation:fadeIn .35s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="header-icon">&#128214;</div>
+    <h1>UPCI Bible Quiz</h1>
+    <p>Test Bank</p>
+  </div>
+  <div class="screen visible" id="setupScreen">
+    <div class="card fade-in">
+      <h2>Configure Your Session</h2>
+      <div class="field-group">
+        <label>Division</label>
+        <div class="toggle-row">
+          <button class="toggle-btn active" onclick="setDivision('BEGINNER')" id="divBeg"><span class="btn-icon">&#127793;</span> Beginner</button>
+          <button class="toggle-btn" onclick="setDivision('JUNIOR')" id="divJr"><span class="btn-icon">&#128216;</span> Junior</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Mode</label>
+        <div class="toggle-row">
+          <button class="toggle-btn active" onclick="setMode('student')" id="modeStudent"><span class="btn-icon">&#127891;</span> Student</button>
+          <button class="toggle-btn" onclick="setMode('coach')" id="modeCoach"><span class="btn-icon">&#128203;</span> Coach</button>
+          <button class="toggle-btn" onclick="setMode('tournament')" id="modeTournament"><span class="btn-icon">&#127942;</span> Tournament</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Verse Sequence Range</label>
+        <div class="input-row">
+          <input type="number" id="vsFrom" min="1" value="1" placeholder="From" oninput="updatePreview()">
+          <span>to</span>
+          <input type="number" id="vsTo" min="1" value="22" placeholder="To" oninput="updatePreview()">
+        </div>
+        <div class="range-hint" id="rangeHint">Beginner: 1-169 | Junior: 1-267. Only questions within this range will appear.</div>
+      </div>
+      <div class="field-group">
+        <label>Question Order</label>
+        <div class="toggle-row">
+          <button class="toggle-btn active" onclick="setOrder('sequence')" id="orderSeq"><span class="btn-icon">&#8595;</span> In Sequence</button>
+          <button class="toggle-btn" onclick="setOrder('random')" id="orderRand"><span class="btn-icon">&#128256;</span> Random</button>
+        </div>
+      </div>
+      <div class="field-group" id="qCountGroup">
+        <label>Number of Questions</label>
+        <div class="q-count-row">
+          <input type="number" id="qCount" min="1" value="0" placeholder="#">
+          <span>of <strong id="qAvailable">20</strong> available</span>
+        </div>
+        <div class="q-count-hint">Leave at 0 or blank to use all available questions.</div>
+      </div>
+      <div class="field-group">
+        <label>Mode Description</label>
+        <p id="modeDesc" style="font-size:13px;color:rgba(245,240,232,.55);line-height:1.6"><strong>Student Mode:</strong> Answers and verse references are hidden. Tap Reveal Answer when ready. Great for self-study!</p>
+      </div>
+      <!-- PREVIEW -->
+      <div id="previewContainer">
+        <div class="preview-header"><span>Available Questions</span><span id="previewCount">20</span></div>
+        <div class="preview-box" id="previewBox"></div>
+      </div>
+      <button class="gold-btn" style="margin-top:24px" onclick="startQuiz()">Begin Quiz &#8594;</button>
+    </div>
+  </div>
+  <div class="quiz-area" id="quizScreen">
+    <div class="top-bar">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge badge-division" id="badgeDiv">BEGINNER</span>
+        <span class="badge badge-mode student" id="badgeMode">STUDENT</span>
+      </div>
+      <div class="score-display" id="scoreDisplay">0 pts</div>
+    </div>
+    <div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div>
+    <div class="timer-text">Timer: <span id="timerNum">30</span>s</div>
+    <div class="progress-text" id="progressText">Question 1 of 20</div>
+    <div class="question-card fade-in" id="questionCard">
+      <div class="q-meta">
+        <span class="q-type" id="qType">DIRECT</span>
+        <span class="q-points pts-10" id="qPoints">10</span>
+      </div>
+      <div class="q-reference" id="qRef"></div>
+      <div class="q-text" id="qText">Loading...</div>
+      <div class="answer-area" id="answerArea"></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" id="prevBtn" onclick="prevQuestion()">&#8592; Prev</button>
+      <div class="timer-controls">
+        <button class="timer-ctrl-btn" onclick="toggleTimer()" id="timerToggle" title="Pause/Resume">||</button>
+        <button class="timer-ctrl-btn" onclick="resetTimer()" title="Reset Timer">&#8635;</button>
+      </div>
+      <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">Next &#8594;</button>
+    </div>
+    <div class="end-quiz-row"><button class="outline-btn danger" onclick="confirmEnd()">End Quiz</button></div>
+  </div>
+  <div class="screen wide" id="summaryScreen">
+    <div class="card fade-in" id="summaryCard"></div>
+  </div>
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+      <h3>End Quiz Early?</h3>
+      <p>You have answered <span id="modalAnswered">0</span> of <span id="modalTotal">0</span> questions. Unanswered questions will be marked as skipped.</p>
+      <div class="modal-btns">
+        <button class="outline-btn" onclick="closeModal()">Cancel</button>
+        <button class="outline-btn danger" onclick="endQuizNow()">End Quiz</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var QUESTIONS={
+BEGINNER:[
+{vs:1,ref:"Deuteronomy 6:5",pts:20,type:"DIRECT",q:"Deuteronomy chapter 6 verse 5 says thou shalt love the LORD thy God with all thine WHAT?",a:"heart, and with all thy soul, and with all thy might",vt:"And thou shalt love the LORD thy God with all thine heart, and with all thy soul, and with all thy might."},
+{vs:2,ref:"Deuteronomy 6:6",pts:10,type:"DIRECT",q:"Deuteronomy chapter 6 verse 6 states these words, which I command thee this day, shall be in WHAT?",a:"thine heart",vt:"And these words, which I command thee this day, shall be in thine heart:"},
+{vs:3,ref:"Deuteronomy 6:7",pts:10,type:"DIRECT",q:"Deuteronomy chapter 6 verse 7 states teach them HOW?",a:"diligently unto thy children",vt:"And thou shalt teach them diligently unto thy children, and shalt talk of them when thou sittest in thine house, and when thou walkest by the way, and when thou liest down, and when thou risest up."},
+{vs:4,ref:"Deuteronomy 6:7",pts:10,type:"TWO PART",q:"TWO PART: Deuteronomy chapter 6 verse 7 records thou shalt talk of them WHEN?",a:"1) when thou sittest in thine house 2) when thou walkest by the way",vt:"And thou shalt teach them diligently unto thy children, and shalt talk of them when thou sittest in thine house, and when thou walkest by the way, and when thou liest down, and when thou risest up."},
+{vs:5,ref:"Deuteronomy 6:8",pts:10,type:"DIRECT",q:"Deuteronomy chapter 6 verse 8 says thou shalt bind them for a sign upon WHAT?",a:"thine hand",vt:"And thou shalt bind them for a sign upon thine hand, and they shall be as frontlets between thine eyes."},
+{vs:6,ref:"Deuteronomy 6:9",pts:20,type:"TWO PART",q:"TWO PART: Deuteronomy chapter 6 verse 9 says thou shalt write them upon WHERE?",a:"1) the posts of thy house 2) on thy gates",vt:"And thou shalt write them upon the posts of thy house, and on thy gates."},
+{vs:7,ref:"Deuteronomy 6:5",pts:20,type:"QUOTATION",q:"Quote Deuteronomy chapter 6 verse 5.",a:"And thou shalt love the LORD thy God with all thine heart, and with all thy soul, and with all thy might.",vt:"And thou shalt love the LORD thy God with all thine heart, and with all thy soul, and with all thy might."},
+{vs:8,ref:"Deuteronomy 6:7",pts:10,type:"QUOTATION COMPLETION",q:"QUOTATION COMPLETION: And thou shalt teach them diligently unto thy children, and shalt talk of them...",a:"when thou sittest in thine house, and when thou walkest by the way, and when thou liest down, and when thou risest up.",vt:"And thou shalt teach them diligently unto thy children, and shalt talk of them when thou sittest in thine house, and when thou walkest by the way, and when thou liest down, and when thou risest up."},
+{vs:9,ref:"Proverbs 3:5",pts:20,type:"DIRECT",q:"Proverbs chapter 3 verse 5 says Trust in the LORD with all thine WHAT?",a:"heart",vt:"Trust in the LORD with all thine heart; and lean not unto thine own understanding."},
+{vs:10,ref:"Proverbs 3:5",pts:20,type:"DIRECT",q:"Proverbs chapter 3 verse 5 states lean not unto thine own WHAT?",a:"understanding",vt:"Trust in the LORD with all thine heart; and lean not unto thine own understanding."},
+{vs:11,ref:"Proverbs 3:6",pts:10,type:"DIRECT",q:"Proverbs chapter 3 verse 6 says In all thy ways WHAT?",a:"acknowledge him",vt:"In all thy ways acknowledge him, and he shall direct thy paths."},
+{vs:12,ref:"Proverbs 3:6",pts:10,type:"DIRECT",q:"Proverbs chapter 3 verse 6 says he shall direct thy WHAT?",a:"paths",vt:"In all thy ways acknowledge him, and he shall direct thy paths."},
+{vs:13,ref:"Proverbs 3:5",pts:20,type:"LOCATE THIS VERSE",q:"LOCATE THIS VERSE: Trust in the LORD with all thine heart; and lean not unto thine own understanding.",a:"Proverbs 3:5",vt:"Trust in the LORD with all thine heart; and lean not unto thine own understanding."},
+{vs:14,ref:"Psalm 119:11",pts:30,type:"DIRECT",q:"Psalm chapter 119 verse 11 says Thy word have I hid in WHAT?",a:"mine heart",vt:"Thy word have I hid in mine heart, that I might not sin against thee."},
+{vs:15,ref:"Psalm 119:11",pts:30,type:"DIRECT",q:"Psalm chapter 119 verse 11 records Thy word have I hid in mine heart, that I might not sin against WHOM?",a:"thee",vt:"Thy word have I hid in mine heart, that I might not sin against thee."},
+{vs:16,ref:"Psalm 119:105",pts:20,type:"DIRECT",q:"Psalm chapter 119 verse 105 says Thy word is a lamp unto WHAT?",a:"my feet",vt:"Thy word is a lamp unto my feet, and a light unto my path."},
+{vs:17,ref:"Psalm 119:105",pts:20,type:"DIRECT",q:"Psalm chapter 119 verse 105 says Thy word is a lamp unto my feet, and a light unto WHAT?",a:"my path",vt:"Thy word is a lamp unto my feet, and a light unto my path."},
+{vs:18,ref:"Psalm 119:105",pts:20,type:"QUOTATION",q:"Quote Psalm chapter 119 verse 105.",a:"Thy word is a lamp unto my feet, and a light unto my path.",vt:"Thy word is a lamp unto my feet, and a light unto my path."},
+{vs:19,ref:"John 3:16",pts:20,type:"DIRECT",q:"John chapter 3 verse 16 says For God so loved WHAT?",a:"the world",vt:"For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."},
+{vs:20,ref:"John 3:16",pts:20,type:"DIRECT",q:"John chapter 3 verse 16 records he gave his only begotten Son, that whosoever believeth in him should not perish, but have WHAT?",a:"everlasting life",vt:"For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."}
+],
+JUNIOR:[
+{vs:1,ref:"Deuteronomy 6:5",pts:20,type:"DIRECT",q:"Deuteronomy chapter 6 verse 5 says thou shalt love the LORD thy God with all thine WHAT?",a:"heart, and with all thy soul, and with all thy might",vt:"And thou shalt love the LORD thy God with all thine heart, and with all thy soul, and with all thy might."},
+{vs:2,ref:"Deuteronomy 6:7",pts:10,type:"(THREE-PART QUESTION)",q:"(THREE-PART QUESTION) Deuteronomy chapter 6 verse 7 records thou shalt talk of them WHEN?",a:"1) when thou sittest in thine house 2) when thou walkest by the way 3) when thou liest down",vt:"And thou shalt teach them diligently unto thy children, and shalt talk of them when thou sittest in thine house, and when thou walkest by the way, and when thou liest down, and when thou risest up."},
+{vs:3,ref:"Hebrews 4:12",pts:30,type:"DIRECT",q:"Hebrews chapter 4 verse 12 states the word of God is quick, and powerful, and sharper than any WHAT?",a:"twoedged sword",vt:"For the word of God is quick, and powerful, and sharper than any twoedged sword, piercing even to the dividing asunder of soul and spirit, and of the joints and marrow, and is a discerner of the thoughts and intents of the heart."},
+{vs:4,ref:"Hebrews 4:12",pts:30,type:"(QUOTATION QUESTION)",q:"(QUOTATION QUESTION) Quote Hebrews chapter 4 verse 12.",a:"For the word of God is quick, and powerful, and sharper than any twoedged sword, piercing even to the dividing asunder of soul and spirit, and of the joints and marrow, and is a discerner of the thoughts and intents of the heart.",vt:"For the word of God is quick, and powerful, and sharper than any twoedged sword, piercing even to the dividing asunder of soul and spirit, and of the joints and marrow, and is a discerner of the thoughts and intents of the heart."},
+{vs:5,ref:"Psalm 119:11",pts:30,type:"DIRECT",q:"Psalm chapter 119 verse 11 says Thy word have I hid in mine heart WHY?",a:"that I might not sin against thee",vt:"Thy word have I hid in mine heart, that I might not sin against thee."},
+{vs:6,ref:"Acts 2:38",pts:20,type:"DIRECT",q:"Acts chapter 2 verse 38 records Peter said unto them WHAT?",a:"Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins",vt:"Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost."},
+{vs:7,ref:"Acts 2:38",pts:20,type:"DIRECT",q:"Acts chapter 2 verse 38 says ye shall receive the gift of WHAT?",a:"the Holy Ghost",vt:"Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost."},
+{vs:8,ref:"Acts 2:38",pts:20,type:"(QUOTATION QUESTION)",q:"(QUOTATION QUESTION) Quote Acts chapter 2 verse 38.",a:"Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost.",vt:"Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost."},
+{vs:9,ref:"John 3:5",pts:20,type:"DIRECT",q:"John chapter 3 verse 5 records Jesus answered WHOM?",a:"Nicodemus",vt:"Jesus answered, Verily, verily, I say unto thee, Except a man be born of water and of the Spirit, he cannot enter into the kingdom of God."},
+{vs:10,ref:"John 3:5",pts:20,type:"DIRECT",q:"John chapter 3 verse 5 says Except a man be born of water and of the Spirit, he cannot enter into WHAT?",a:"the kingdom of God",vt:"Jesus answered, Verily, verily, I say unto thee, Except a man be born of water and of the Spirit, he cannot enter into the kingdom of God."},
+{vs:11,ref:"Romans 6:23",pts:10,type:"DIRECT",q:"Romans chapter 6 verse 23 states the wages of sin is WHAT?",a:"death",vt:"For the wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord."},
+{vs:12,ref:"Romans 6:23",pts:10,type:"DIRECT",q:"Romans chapter 6 verse 23 states the gift of God is WHAT?",a:"eternal life through Jesus Christ our Lord",vt:"For the wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord."},
+{vs:13,ref:"Romans 6:23",pts:10,type:"(QUOTATION COMPLETION QUESTION)",q:"(QUOTATION COMPLETION QUESTION) For the wages of sin is death; but the gift of God is...",a:"eternal life through Jesus Christ our Lord.",vt:"For the wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord."},
+{vs:14,ref:"Isaiah 53:5",pts:30,type:"DIRECT",q:"Isaiah chapter 53 verse 5 says he was wounded for our WHAT?",a:"transgressions",vt:"But he was wounded for our transgressions, he was bruised for our iniquities: the chastisement of our peace was upon him; and with his stripes we are healed."},
+{vs:15,ref:"Isaiah 53:5",pts:30,type:"DIRECT",q:"Isaiah chapter 53 verse 5 says he was bruised for our WHAT?",a:"iniquities",vt:"But he was wounded for our transgressions, he was bruised for our iniquities: the chastisement of our peace was upon him; and with his stripes we are healed."},
+{vs:16,ref:"Isaiah 53:5",pts:30,type:"DIRECT",q:"Isaiah chapter 53 verse 5 records with his stripes we are WHAT?",a:"healed",vt:"But he was wounded for our transgressions, he was bruised for our iniquities: the chastisement of our peace was upon him; and with his stripes we are healed."},
+{vs:17,ref:"John 14:6",pts:20,type:"DIRECT",q:"John chapter 14 verse 6 records Jesus saith unto WHOM?",a:"him",vt:"Jesus saith unto him, I am the way, the truth, and the life: no man cometh unto the Father, but by me."},
+{vs:18,ref:"John 14:6",pts:20,type:"(TWO-PART QUESTION)",q:"(TWO-PART QUESTION) John chapter 14 verse 6 says I am the way, the truth, and WHAT?",a:"1) the life 2) no man cometh unto the Father, but by me",vt:"Jesus saith unto him, I am the way, the truth, and the life: no man cometh unto the Father, but by me."},
+{vs:19,ref:"Matthew 28:19",pts:10,type:"DIRECT",q:"Matthew chapter 28 verse 19 records Go ye therefore, and teach all WHAT?",a:"nations",vt:"Go ye therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost:"},
+{vs:20,ref:"Matthew 28:19",pts:10,type:"DIRECT",q:"Matthew chapter 28 verse 19 says baptizing them in the name of the Father, and of the Son, and of WHOM?",a:"the Holy Ghost",vt:"Go ye therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost:"},
+{vs:21,ref:"1 Timothy 3:16",pts:30,type:"UNIQUE",q:"1 Timothy chapter 3 verse 16 states God was manifest in WHAT?",a:"the flesh",vt:"And without controversy great is the mystery of godliness: God was manifest in the flesh, justified in the Spirit, seen of angels, preached unto the Gentiles, believed on in the world, received up into glory."},
+{vs:22,ref:"Proverbs 3:5",pts:20,type:"LOCATE THIS VERSE",q:"LOCATE THIS VERSE: Trust in the LORD with all thine heart; and lean not unto thine own understanding.",a:"Proverbs 3:5",vt:"Trust in the LORD with all thine heart; and lean not unto thine own understanding."}
+]
+};
+
+var division="BEGINNER",mode="student",questionOrder="sequence",questions=[],currentIndex=0,score=0,results={},revealed={},timerInterval=null,timerSeconds=30,timerPaused=false,reportData=[];
+
+function escHtml(s){var d=document.createElement("div");d.appendChild(document.createTextNode(s));return d.innerHTML;}
+function csvEscape(s){if(s==null)return"";s=String(s);if(s.indexOf(",")>-1||s.indexOf('"')>-1||s.indexOf("\n")>-1)return'"'+s.replace(/"/g,'""')+'"';return s;}
+
+function getFiltered(){
+  var fr=parseInt(document.getElementById("vsFrom").value)||1;
+  var to=parseInt(document.getElementById("vsTo").value)||999;
+  var pool=QUESTIONS[division];var out=[];
+  for(var i=0;i<pool.length;i++){if(pool[i].vs>=fr&&pool[i].vs<=to)out.push(pool[i]);}
+  return out;
+}
+
+function updatePreview(){
+  var filtered=getFiltered();
+  var count=filtered.length;
+  document.getElementById("qAvailable").textContent=count;
+  document.getElementById("previewCount").textContent=count;
+  var box=document.getElementById("previewBox");
+  if(count===0){box.innerHTML='<div style="text-align:center;color:rgba(245,240,232,.3);padding:20px;font-size:13px">No questions in this range</div>';return;}
+  var html="";
+  for(var i=0;i<filtered.length;i++){
+    var q=filtered[i];
+    var pc=q.pts===10?"p10":q.pts===20?"p20":"p30";
+    html+='<div class="preview-item"><span class="pi-pts '+pc+'">'+q.pts+'</span><span class="pi-type">'+escHtml(q.type)+'</span><span class="pi-ref">VS'+q.vs+' '+escHtml(q.ref)+'</span><br>'+escHtml(q.q)+'</div>';
+  }
+  box.innerHTML=html;
+}
+
+function setDivision(d){
+  division=d;
+  document.getElementById("divBeg").classList.toggle("active",d==="BEGINNER");
+  document.getElementById("divJr").classList.toggle("active",d==="JUNIOR");
+  var pool=QUESTIONS[d];var mx=0;for(var i=0;i<pool.length;i++){if(pool[i].vs>mx)mx=pool[i].vs;}
+  document.getElementById("vsTo").value=mx;
+  document.getElementById("rangeHint").textContent=(d==="BEGINNER"?"Beginner: 1-169":"Junior: 1-267")+". Only questions within this range will appear.";
+  updatePreview();
+}
+function setMode(m){
+  mode=m;
+  document.getElementById("modeStudent").classList.toggle("active",m==="student");
+  document.getElementById("modeCoach").classList.toggle("active",m==="coach");
+  document.getElementById("modeTournament").classList.toggle("active",m==="tournament");
+  var desc="";
+  if(m==="student")desc="<strong>Student Mode:</strong> Answers and verse references are hidden. Tap Reveal Answer when ready. Great for self-study!";
+  else if(m==="coach")desc="<strong>Coach Mode:</strong> Answers and references shown immediately. Mark correct or incorrect. Wrong answers lose half points. 30-second timer.";
+  else desc="<strong>UPCI Tournament Mode:</strong> 15 questions randomly selected: Q1-6 = 10 pts, Q7-12 = 20 pts, Q13-15 = 30 pts. Coach scoring rules apply.";
+  document.getElementById("modeDesc").innerHTML=desc;
+  document.getElementById("qCountGroup").style.display=m==="tournament"?"none":"block";
+}
+function setOrder(o){questionOrder=o;document.getElementById("orderSeq").classList.toggle("active",o==="sequence");document.getElementById("orderRand").classList.toggle("active",o==="random");}
+function shuffle(arr){for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=arr[i];arr[i]=arr[j];arr[j]=t;}return arr;}
+
+function deepCopy(arr){var out=[];for(var i=0;i<arr.length;i++)out.push(JSON.parse(JSON.stringify(arr[i])));return out;}
+
+function buildTournament(){
+  var pool=deepCopy(getFiltered());shuffle(pool);
+  var picked=pool.slice(0,15);
+  while(picked.length<15&&pool.length>0){picked.push(JSON.parse(JSON.stringify(pool[picked.length%pool.length])));}
+  for(var i=0;i<picked.length;i++){if(i<6)picked[i].pts=10;else if(i<12)picked[i].pts=20;else picked[i].pts=30;picked[i].tournamentNum=i+1;}
+  return picked;
+}
+
+function startQuiz(){
+  if(mode==="tournament"){
+    questions=buildTournament();
+  }else{
+    var filtered=deepCopy(getFiltered());
+    if(filtered.length===0){alert("No questions found in that verse range. Please adjust.");return;}
+    if(questionOrder==="random")shuffle(filtered);
+    var limit=parseInt(document.getElementById("qCount").value)||0;
+    if(limit>0&&limit<filtered.length){
+      filtered=filtered.slice(0,limit);
+    }
+    questions=filtered;
+  }
+  currentIndex=0;score=0;results={};revealed={};reportData=[];
+  document.getElementById("setupScreen").classList.remove("visible");
+  document.getElementById("quizScreen").classList.add("visible");
+  document.getElementById("summaryScreen").classList.remove("visible");
+  updateBadges();renderQuestion();startTimer();
+}
+function updateBadges(){
+  document.getElementById("badgeDiv").textContent=division;var bm=document.getElementById("badgeMode");
+  if(mode==="tournament"){bm.textContent="TOURNAMENT";bm.className="badge badge-mode tournament";}
+  else if(mode==="coach"){bm.textContent="COACH";bm.className="badge badge-mode coach";}
+  else{bm.textContent="STUDENT";bm.className="badge badge-mode student";}
+}
+function startTimer(){
+  clearInterval(timerInterval);timerSeconds=30;timerPaused=false;document.getElementById("timerToggle").textContent="||";updateTimerDisplay();
+  timerInterval=setInterval(function(){if(!timerPaused){timerSeconds--;if(timerSeconds<0)timerSeconds=0;updateTimerDisplay();if(timerSeconds===0)clearInterval(timerInterval);}},1000);
+}
+function updateTimerDisplay(){var pct=(timerSeconds/30)*100;var f=document.getElementById("timerFill");f.style.width=pct+"%";f.className="timer-fill"+(timerSeconds<=5?" danger":timerSeconds<=10?" warning":"");var n=document.getElementById("timerNum");n.textContent=timerSeconds;n.className=timerSeconds<=5?"danger":timerSeconds<=10?"warning":"";}
+function toggleTimer(){timerPaused=!timerPaused;document.getElementById("timerToggle").textContent=timerPaused?">":"||";}
+function resetTimer(){startTimer();}
+
+function verseBlock(q){return '<div class="verse-block"><span class="verse-ref">'+escHtml(q.ref)+'</span>'+escHtml(q.vt)+'</div>';}
+
+function renderQuestion(){
+  var q=questions[currentIndex];
+  document.getElementById("progressText").textContent="Question "+(currentIndex+1)+" of "+questions.length;
+  document.getElementById("qType").textContent=q.type;
+  var pts=document.getElementById("qPoints");pts.textContent=q.pts;pts.className="q-points pts-"+q.pts;
+  var ref=document.getElementById("qRef");ref.textContent=q.ref;
+  if(mode==="student"&&!revealed[currentIndex])ref.classList.add("hidden-ref");else ref.classList.remove("hidden-ref");
+  document.getElementById("qText").textContent=q.q;
+  var area=document.getElementById("answerArea");area.innerHTML="";
+  if(mode==="student"){
+    if(revealed[currentIndex]){
+      area.innerHTML='<div class="answer-label">Answer</div><div class="answer-text">'+escHtml(q.a)+'</div>'+verseBlock(q);
+    }else{
+      area.innerHTML='<div class="answer-hidden" onclick="revealAnswer()"><div class="reveal-icon">&#128065;</div><p>Tap to reveal answer</p></div>';
+    }
+  }else{
+    var html='<div class="answer-label">Answer</div><div class="answer-text">'+escHtml(q.a)+'</div>'+verseBlock(q);
+    if(results[currentIndex]){
+      var isC=results[currentIndex]==="correct";var pen=Math.floor(q.pts/2);
+      html+='<div class="result-tag '+(isC?"got-correct":"got-incorrect")+'">'+(isC?"&#10004; Correct":"&#10008; Incorrect (-"+pen+" pts)")+'</div>';
+      html+='<div class="coach-btns"><button class="coach-btn correct" disabled>&#10004; Correct</button><button class="coach-btn incorrect" disabled>&#10008; Incorrect</button></div>';
+    }else{
+      html+='<div class="coach-btns"><button class="coach-btn correct" onclick="markAnswer(\'correct\')">&#10004; Correct</button><button class="coach-btn incorrect" onclick="markAnswer(\'incorrect\')">&#10008; Incorrect</button></div>';
+    }
+    area.innerHTML=html;
+  }
+  document.getElementById("scoreDisplay").textContent=score+" pts";
+  document.getElementById("prevBtn").disabled=currentIndex===0;
+  var nb=document.getElementById("nextBtn");
+  nb.innerHTML=currentIndex===questions.length-1?"Finish &#8594;":"Next &#8594;";nb.disabled=false;
+  var card=document.getElementById("questionCard");card.classList.remove("fade-in");void card.offsetWidth;card.classList.add("fade-in");
+}
+function revealAnswer(){revealed[currentIndex]=true;renderQuestion();}
+function markAnswer(r){var q=questions[currentIndex];if(results[currentIndex])return;results[currentIndex]=r;if(r==="correct")score+=q.pts;else score-=Math.floor(q.pts/2);renderQuestion();}
+function prevQuestion(){if(currentIndex>0){currentIndex--;renderQuestion();startTimer();}}
+function nextQuestion(){if(currentIndex<questions.length-1){currentIndex++;renderQuestion();startTimer();}else{showSummary();}}
+function confirmEnd(){
+  var ans=0;for(var i=0;i<questions.length;i++){if(results[i])ans++;}
+  document.getElementById("modalAnswered").textContent=ans;document.getElementById("modalTotal").textContent=questions.length;
+  document.getElementById("confirmModal").classList.add("visible");
+}
+function closeModal(){document.getElementById("confirmModal").classList.remove("visible");}
+function endQuizNow(){closeModal();showSummary();}
+
+function buildReportData(){
+  reportData=[];
+  for(var i=0;i<questions.length;i++){var q=questions[i];var r=results[i]||"skipped";var pe=0;
+    if(r==="correct")pe=q.pts;else if(r==="incorrect")pe=-Math.floor(q.pts/2);
+    reportData.push({num:i+1,verseSeq:q.vs,reference:q.ref,questionType:q.type,pointValue:q.pts,question:q.q,answer:q.a,verseText:q.vt,result:r,pointsEarned:pe});}
+}
+function downloadCSV(){
+  var hdr=["#","Verse Seq","Reference","Question Type","Point Value","Question","Answer","Full Verse Text","Result","Points Earned"];
+  var rows=[hdr.join(",")];
+  for(var i=0;i<reportData.length;i++){var d=reportData[i];
+    rows.push([d.num,d.verseSeq,csvEscape(d.reference),csvEscape(d.questionType),d.pointValue,csvEscape(d.question),csvEscape(d.answer),csvEscape(d.verseText),d.result,d.pointsEarned].join(","));}
+  var ml=mode==="tournament"?"Tournament":mode==="coach"?"Coach":"Student";
+  rows.push("");rows.push("Division,"+division);rows.push("Mode,"+ml);rows.push("Total Score,"+score);
+  var mp=0;for(var i=0;i<questions.length;i++)mp+=questions[i].pts;rows.push("Max Possible,"+mp);
+  var csv=rows.join("\n");var blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");var ts=new Date().toISOString().slice(0,10);
+  a.href=url;a.download="UPCI_Quiz_Report_"+division+"_"+ml+"_"+ts+".csv";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+function showSummary(){
+  clearInterval(timerInterval);buildReportData();
+  document.getElementById("quizScreen").classList.remove("visible");
+  var sc=document.getElementById("summaryScreen");sc.classList.add("visible");
+  var correct=0,incorrect=0,skipped=0,maxPts=0,typeStats={};
+  for(var i=0;i<questions.length;i++){var q=questions[i];maxPts+=q.pts;var r=results[i]||"skipped";
+    if(r==="correct")correct++;else if(r==="incorrect")incorrect++;else skipped++;
+    if(!typeStats[q.type])typeStats[q.type]={correct:0,incorrect:0,skipped:0,total:0};typeStats[q.type][r]++;typeStats[q.type].total++;}
+  var pct=maxPts>0?Math.round((Math.max(0,score)/maxPts)*100):0;
+  var ml=mode==="tournament"?"UPCI Tournament":mode==="coach"?"Coach":"Student";
+  var h='<h2>Session Report</h2>';
+  h+='<div style="text-align:center;margin-bottom:8px"><span class="badge badge-division">'+division+'</span> <span class="badge badge-mode '+mode+'">'+ml+'</span></div>';
+  h+='<div class="summary-score">'+score+'</div><div class="summary-max">out of '+maxPts+' possible points ('+pct+'%)</div>';
+  h+='<div class="stat-row"><div class="stat"><div class="stat-num green">'+correct+'</div><div class="stat-label">Correct</div></div><div class="stat"><div class="stat-num red">'+incorrect+'</div><div class="stat-label">Incorrect</div></div><div class="stat"><div class="stat-num blue">'+skipped+'</div><div class="stat-label">Skipped</div></div></div>';
+  h+='<div class="report-section"><h3>Performance by Question Type</h3>';
+  for(var t in typeStats){var s=typeStats[t];var cp=s.total>0?Math.round((s.correct/s.total)*100):0;
+    h+='<div class="bar-group"><div class="bar-label"><span>'+escHtml(t)+' ('+s.correct+'/'+s.total+')</span><span>'+cp+'%</span></div><div class="bar-track"><div class="bar-fill-green" style="width:'+cp+'%"></div></div></div>';}
+  h+='</div>';
+  var td={"10":{c:0,i:0,s:0,t:0},"20":{c:0,i:0,s:0,t:0},"30":{c:0,i:0,s:0,t:0}};
+  for(var i=0;i<questions.length;i++){var q=questions[i];var r=results[i]||"skipped";var ti=td[String(q.pts)];if(ti){ti.t++;if(r==="correct")ti.c++;else if(r==="incorrect")ti.i++;else ti.s++;}}
+  h+='<div class="report-section"><h3>Performance by Point Value</h3><div class="analytics-grid">';
+  var tl={"10":"10 pts (Blue)","20":"20 pts (Yellow)","30":"30 pts (Red)"};
+  for(var p in tl){var t2=td[p];if(t2.t===0)continue;h+='<div class="analytics-card"><div class="a-val">'+t2.c+'/'+t2.t+'</div><div class="a-lbl">'+tl[p]+'</div></div>';}
+  h+='</div></div>';
+  h+='<div class="report-section"><h3>Question Details</h3><div style="overflow-x:auto"><table class="report-table"><thead><tr><th>#</th><th>VS</th><th>Reference</th><th>Type</th><th>Pts</th><th>Result</th><th>+/-</th></tr></thead><tbody>';
+  for(var i=0;i<reportData.length;i++){var d=reportData[i];var rc=d.result==="correct"?"row-correct":d.result==="incorrect"?"row-incorrect":"row-skip";
+    var pc=d.result==="correct"?"green":d.result==="incorrect"?"red":"gray";var pt=d.result==="correct"?"Correct":d.result==="incorrect"?"Incorrect":"Skipped";
+    var ptc=d.pointValue===10?"blue":d.pointValue===20?"yellow":"redpt";
+    var earned=d.pointsEarned>0?"+"+d.pointsEarned:d.pointsEarned===0?"0":String(d.pointsEarned);
+    h+='<tr class="'+rc+'"><td>'+(i+1)+'</td><td>'+d.verseSeq+'</td><td>'+escHtml(d.reference)+'</td><td style="font-size:11px">'+escHtml(d.questionType)+'</td><td><span class="pill '+ptc+'">'+d.pointValue+'</span></td><td><span class="pill '+pc+'">'+pt+'</span></td><td>'+earned+'</td></tr>';}
+  h+='</tbody></table></div></div>';
+  h+='<div class="btn-row"><button class="gold-btn sm" onclick="restart()">New Session</button><button class="outline-btn" onclick="downloadCSV()">&#11015; Download CSV Report</button></div>';
+  document.getElementById("summaryCard").innerHTML=h;
+}
+function restart(){clearInterval(timerInterval);document.getElementById("quizScreen").classList.remove("visible");document.getElementById("summaryScreen").classList.remove("visible");document.getElementById("setupScreen").classList.add("visible");}
+
+// Init preview on load
+updatePreview();
+</script>
+</body>
+</html>
